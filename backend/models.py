@@ -24,3 +24,11 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(80), unique=True, nullable=False)
+
+
+class JokeCategoryRelation(Base):
+    __tablename__ = 'relation'
+
+    id = Column(Integer, primary_key=True)
+    joke_id = Column(Integer, ForeignKey('joke.id'))
+    category_id = Column(Integer, ForeignKey('category.id'))
