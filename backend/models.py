@@ -32,3 +32,9 @@ class JokeCategoryRelation(Base):
     id = Column(Integer, primary_key=True)
     joke_id = Column(Integer, ForeignKey('joke.id'))
     category_id = Column(Integer, ForeignKey('category.id'))
+
+class DeletedRemoteJoke(Base):
+    __tablename__ = 'deleted'
+
+    id = Column(Integer, primary_key=True)
+    external_id = Column(String(50), unique=True)
