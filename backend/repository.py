@@ -10,3 +10,9 @@ def update_by_external_id(item: object, external_id: str, values: dict):
     _item.update(values)
     session.commit()
     return _item.first()
+
+def search_by_name(item: object, value: str):
+    return session.query(item).filter_by(name=value).first()
+
+def search_by_external_id(item: object, value: str):
+    return session.query(item).filter_by(external_id=value).first()
