@@ -11,3 +11,13 @@ def get_joke_from_remote(id):
         return False
     response_json = json.loads(response.text)
     return response_json
+
+
+def query_joke_from_remote(query):
+    args = {"query": query}
+    url = remote_url + 'search'
+    response = requests.get(url, args)
+    if response.status_code != 200:
+        return False
+    response_json = json.loads(response.text)
+    return response_json
