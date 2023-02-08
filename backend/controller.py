@@ -17,3 +17,15 @@ def _get_base_url():
     return os.getenv('BASE_URL')
 
 
+def _convert_json(joke, categories):
+    return {
+        "categories": categories,
+        "created_at": str(joke.created_at),
+        "icon_url": joke.icon_url or "",
+        "id": joke.external_id,
+        "updated_at": str(joke.updated_at) if joke.updated_at else None,
+        "url": joke.url or "",
+        "value": joke.value
+    }
+
+
