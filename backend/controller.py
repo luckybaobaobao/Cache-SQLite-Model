@@ -1,6 +1,23 @@
 import repository
+import uuid
 import os
 from models import Category, JokeCategoryRelation
+from models import Joke
+
+
+def insert_joke(icon_url, value, categories, cache):
+    external_id = str(uuid.uuid4())
+    joke = Joke(
+        value=value,
+        external_id=external_id,
+        icon_url=icon_url,
+        url=_get_base_url()
+    )
+    repository.insert(joke)
+    cache.add_id_into_local_ids(joke.external_id, joke.id)
+
+    _create_categories_and_relations(joke.id, categories)
+    return _convert_json(joke, categories)
 
 
 def _create_categories_and_relations(joke_id, categories: list[str]):
