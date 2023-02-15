@@ -34,3 +34,13 @@ def delete_by_id(item: object, _id: str):
     session.query(item).filter_by(id=_id).delete()
     session.commit()
 
+
+def search_jokes_categories(relation: object, category: object, joke_id: str):
+    categories = session.query(
+        category
+    ).join(relation).filter(
+        relation.joke_id == joke_id
+    ).filter(
+        category.id == relation.category_id
+    ).all()
+    return [category.name for category in categories] if categories else []
