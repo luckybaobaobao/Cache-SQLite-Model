@@ -3,6 +3,7 @@ import uuid
 import os
 from models import Category, JokeCategoryRelation
 from models import Joke
+from db import session
 
 
 def insert_joke(icon_url, value, categories, cache):
@@ -46,3 +47,21 @@ def _convert_json(joke, categories):
     }
 
 
+def _update_joke_category_relations(joke_id, categories):
+    if categories:
+        repository.delete_by_joke_id(JokeCategoryRelation, joke_id)
+        _create_categories_and_relations(joke_id, categories)
+        return categories
+    else:
+        return repository.search_jokes_categories(JokeCategoryRelation, Category, joke_id)
+
+
+def search_jokes_categories(relation: object, category: object, joke_id: str):
+    categories = session.query(
+        category
+    ).join(relation).filter(
+        relation.joke_id == joke_id
+    ).filter(
+        category.id == relation.category_id
+    ).all()
+    return [category.name for category in categories] if categories else []
