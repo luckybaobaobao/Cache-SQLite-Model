@@ -56,12 +56,12 @@ def _update_joke_category_relations(joke_id, categories):
         return repository.search_jokes_categories(JokeCategoryRelation, Category, joke_id)
 
 
-def search_jokes_categories(relation: object, category: object, joke_id: str):
-    categories = session.query(
-        category
-    ).join(relation).filter(
-        relation.joke_id == joke_id
-    ).filter(
-        category.id == relation.category_id
-    ).all()
-    return [category.name for category in categories] if categories else []
+def update_joke(external_id, icon_url, value, categories):
+    parameters = {}
+    if icon_url:
+        parameters["icon_url"] = icon_url
+    if value:
+        parameters["value"] = value
+    _joke = repository.update_by_external_id(Joke, external_id, parameters)
+    _categories = _update_joke_category_relations(_joke.id, categories)
+    return _convert_json(_joke, _categories)
