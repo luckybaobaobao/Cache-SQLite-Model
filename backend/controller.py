@@ -71,3 +71,12 @@ def get_joke_from_local(external_id):
     joke = repository.search_by_external_id(Joke, external_id)
     _categories = repository.search_jokes_categories(JokeCategoryRelation, Category, joke.id)
     return _convert_json(joke, _categories)
+
+
+def _query_local_jokes(query):
+    _jokes = []
+    jokes = repository.free_search(Joke, '%' + query + '%')
+    for joke in jokes:
+        categories = repository.search_jokes_categories(JokeCategoryRelation, Category, joke.id)
+        _jokes.append(_convert_json(joke, categories))
+    return _jokes
