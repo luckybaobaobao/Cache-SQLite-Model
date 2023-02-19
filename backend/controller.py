@@ -65,3 +65,9 @@ def update_joke(external_id, icon_url, value, categories):
     _joke = repository.update_by_external_id(Joke, external_id, parameters)
     _categories = _update_joke_category_relations(_joke.id, categories)
     return _convert_json(_joke, _categories)
+
+
+def get_joke_from_local(external_id):
+    joke = repository.search_by_external_id(Joke, external_id)
+    _categories = repository.search_jokes_categories(JokeCategoryRelation, Category, joke.id)
+    return _convert_json(joke, _categories)
