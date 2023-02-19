@@ -80,3 +80,10 @@ def _query_local_jokes(query):
         categories = repository.search_jokes_categories(JokeCategoryRelation, Category, joke.id)
         _jokes.append(_convert_json(joke, categories))
     return _jokes
+
+
+def _combine_results(local_jokes, remote_jokes):
+    local_jokes_nums = len(local_jokes)
+    remote_jokes['result'] += local_jokes
+    remote_jokes['total'] += local_jokes_nums
+    return remote_jokes
