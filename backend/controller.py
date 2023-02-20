@@ -3,6 +3,7 @@ import uuid
 import os
 from models import Category, JokeCategoryRelation
 from models import Joke
+from query_remote import query_joke_from_remote
 from db import session
 
 
@@ -87,3 +88,9 @@ def _combine_results(local_jokes, remote_jokes):
     remote_jokes['result'] += local_jokes
     remote_jokes['total'] += local_jokes_nums
     return remote_jokes
+
+
+def query_jokes(query):
+    local_jokes = _query_local_jokes(query)
+    remote_jokes = query_joke_from_remote(query)
+    return _combine_results(local_jokes, remote_jokes)
