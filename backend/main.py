@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, abort
 import controller
 from cache import Cache
+from query_remote import get_joke_from_remote
 from db import create_tables
 
 
@@ -32,6 +33,17 @@ def update_joke(id):
 
     result = controller.update_joke(id, icon_url, value, category)
     return jsonify(result)
+
+
+@app.route("/api/joke/<id>", methods=["GET"])
+def get_joke_by_id(id):
+    if id in cache.local_ids:
+        joke = controller.get_joke_from_local(id)
+        return jsonify(joke)
+    elif id in cache.deleted_remote_ids:
+        abort(404, "This joke has already be deleted by user")
+    else:
+        return get_joke_from_remote(id)
 
 
 if __name__ == "__main__":
