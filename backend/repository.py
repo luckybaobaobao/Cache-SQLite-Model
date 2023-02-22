@@ -44,3 +44,4 @@ def search_jokes_categories(relation: object, category: object, joke_id: str):
         category.id == relation.category_id
     ).all()
     return [category.name for category in categories] if categories else []
+
