@@ -94,3 +94,11 @@ def query_jokes(query):
     local_jokes = _query_local_jokes(query)
     remote_jokes = query_joke_from_remote(query)
     return _combine_results(local_jokes, remote_jokes)
+
+
+def _delete_joke(id):
+    repository.delete_by_id(Joke, id)
+
+
+def _delete_joke_category_relationship_by_joke_id(id):
+    repository.delete_by_joke_id(JokeCategoryRelation, id)
