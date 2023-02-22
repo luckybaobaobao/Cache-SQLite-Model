@@ -102,3 +102,11 @@ def _delete_joke(id):
 
 def _delete_joke_category_relationship_by_joke_id(id):
     repository.delete_by_joke_id(JokeCategoryRelation, id)
+
+
+def _delete_joke_from_local(id, cache):
+    _id = cache.local_ids[id]
+    _delete_joke(_id)
+    _delete_joke_category_relationship_by_joke_id(_id)
+    cache.remove_id_from_local_ids(id)
+
