@@ -1,7 +1,7 @@
 import repository
 import uuid
 import os
-from models import Category, JokeCategoryRelation
+from models import Category, JokeCategoryRelation, DeletedRemoteJoke
 from models import Joke
 from query_remote import query_joke_from_remote
 from db import session
@@ -110,3 +110,8 @@ def _delete_joke_from_local(id, cache):
     _delete_joke_category_relationship_by_joke_id(_id)
     cache.remove_id_from_local_ids(id)
 
+
+def _delete_remote_joke(id, cache):
+    deleted_remote_joke = DeletedRemoteJoke(external_id=id)
+    repository.insert(deleted_remote_joke)
+    cache.add_id_into_deleted_remote_ids(id)
