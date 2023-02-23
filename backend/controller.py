@@ -115,3 +115,11 @@ def _delete_remote_joke(id, cache):
     deleted_remote_joke = DeletedRemoteJoke(external_id=id)
     repository.insert(deleted_remote_joke)
     cache.add_id_into_deleted_remote_ids(id)
+
+
+def delete_joke(id, cache):
+    if id in cache.local_ids:
+        _delete_joke_from_local(id, cache)
+    else:
+        _delete_remote_joke(id, cache)
+    return True
