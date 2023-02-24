@@ -46,6 +46,14 @@ def get_joke_by_id(id):
         return get_joke_from_remote(id)
 
 
+@app.route("/api/joke/<id>", methods=["DELETE"])
+def delete_joke(id):
+    if id in cache.deleted_remote_ids:
+        abort(404, "This joke has already be deleted by user")
+    result = controller.delete_joke(id, cache)
+    return jsonify(result)
+
+
 if __name__ == "__main__":
     create_tables()
     app.run(host='0.0.0.0', port=8000)
