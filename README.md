@@ -20,3 +20,15 @@ Jokes and categories have a many-to-many relationship, so it is easier to save t
 If there are more category types, it will be easier to scale.
 - 4. **DeleteRemoteTable**: If we find the joke locally, we will directly delete it; otherwise, we will save the joke ID in this table. 
 When a user visits with this ID next time, we will not check if this ID is in the DeleteRemoteTable or not.
+
+
+## Cache:
+
+To improve performance, I have implemented caching.
+- 1. Local Joke IDs Cache: This cache stores all local joke IDs. When a user visits with an ID, 
+it allows for easy and efficient checking of whether the ID exists in our local database. 
+If the ID is not found in the database, there is no need to query the database further.
+- 2. Deleted IDs Cache: Similar to the previous cache, this cache stores deleted IDs. 
+It eliminates the need to query the database to verify if a particular ID has been deleted or not. 
+By checking the deleted IDs cache, we can quickly determine whether an ID has been deleted without accessing the database.
+Implementing these caching mechanisms helps optimize performance by reducing the number of unnecessary database queries and improving response times.
