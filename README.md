@@ -32,3 +32,13 @@ If the ID is not found in the database, there is no need to query the database f
 It eliminates the need to query the database to verify if a particular ID has been deleted or not. 
 By checking the deleted IDs cache, we can quickly determine whether an ID has been deleted without accessing the database.
 Implementing these caching mechanisms helps optimize performance by reducing the number of unnecessary database queries and improving response times.
+
+
+## How my tiny app works:
+
+When you run main.py, it will start the server. It will setup up the database, it the database dose not exist.
+And it will create all the table, if tables are not exist (db.py).
+In main.py there are several apis. When you call the apis, the controller (controller.py) will controller how to handle
+this request, like send remote reqeust (query remote), check cache, access to local database and so on.
+If controller decide to access the database, will call repository, repository will have all function how to visit 
+the database.
