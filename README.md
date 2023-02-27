@@ -42,3 +42,16 @@ In main.py there are several apis. When you call the apis, the controller (contr
 this request, like send remote reqeust (query remote), check cache, access to local database and so on.
 If controller decide to access the database, will call repository, repository will have all function how to visit 
 the database.
+
+
+## Here's an overview of how my tiny app works:
+1. Running main.py: When you execute main.py, it starts the server. If the database doesn't exist, it sets it up. 
+Additionally, it creates any required tables if they don't already exist (implemented in db.py).
+2. APIs and Controller: main.py contains several APIs.
+When you call these APIs, the controller (controller.py) determines how to handle the request. 
+It may involve sending remote requests, checking the cache, or accessing the local database.
+3. Accessing the Database: If the controller decides to access the database, it calls the repository. 
+The repository contains functions that define how to interact with the database. 
+These functions handle tasks such as querying data, updating records, or performing other database operations.
+By following this architecture, your app separates concerns, allowing the controller to handle the request logic 
+while the repository handles the database operations. This structure promotes modularity and maintainability, making it easier to manage and extend your application in the future.
