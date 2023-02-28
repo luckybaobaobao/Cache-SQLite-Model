@@ -54,6 +54,14 @@ def delete_joke(id):
     return jsonify(result)
 
 
+@app.route("/jokes/", methods=["GET"])
+def query_jokes():
+    args = request.args
+    query = args.get("query")
+    jokes = controller.query_jokes(query)
+    return jsonify(jokes)
+
+
 if __name__ == "__main__":
     create_tables()
     app.run(host='0.0.0.0', port=8000)
