@@ -45,3 +45,11 @@ def search_jokes_categories(relation: object, category: object, joke_id: str):
     ).all()
     return [category.name for category in categories] if categories else []
 
+
+def fetch_ids(item: object):
+    return {value[0] for value in session.query(item.external_id)}
+
+
+def fetch_ids_pairs(item: object):
+    return {value[0]: value[1] for value in session.query(item).with_entities(item.external_id, item.id)}
+
