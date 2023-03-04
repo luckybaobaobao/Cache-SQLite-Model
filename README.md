@@ -1,3 +1,8 @@
+## Setup:
+1. Git clone the project
+2. Cd into main project folder
+3. Run docker compose up -d (Or you could open backend folder, Run - python main.py)
+
 
 ## Database:
 
