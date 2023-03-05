@@ -60,3 +60,132 @@ The repository contains functions that define how to interact with the database.
 These functions handle tasks such as querying data, updating records, or performing other database operations.
 By following this architecture, your app separates concerns, allowing the controller to handle the request logic 
 while the repository handles the database operations. This structure promotes modularity and maintainability, making it easier to manage and extend your application in the future.
+
+
+
+## Test part:
+
+This is I test it from postman.
+
+1. Post - http://127.0.0.1:8000/api/jokes/ - {
+    "value": "tofu go to run",
+    "categories": ["animal", "sunshine"]
+}
+
+Response:
+{
+    "categories": [
+        "animal",
+        "sunshine"
+    ],
+    "created_at": "2023-05-29 12:56:24.161196",
+    "icon_url": "",
+    "id": "6bc2bb5b-765f-4ed0-8735-df967e067d96",
+    "updated_at": null,
+    "url": "",
+    "value": "tofu go to run"
+}
+
+2. Get - http://127.0.0.1:8000/api/joke/6bc2bb5b-765f-4ed0-8735-df967e067d96
+Response:
+{
+    "categories": [
+        "animal",
+        "sunshine"
+    ],
+    "created_at": "2023-05-29 12:56:24.161196",
+    "icon_url": "",
+    "id": "6bc2bb5b-765f-4ed0-8735-df967e067d96",
+    "updated_at": null,
+    "url": "",
+    "value": "tofu go to run"
+}
+
+3. Put - http://127.0.0.1:8000/api/joke/6bc2bb5b-765f-4ed0-8735-df967e067d96 
+{
+    "value": "tofu is my baby",
+    "categories": ["animal", "girl", "baby"]
+}
+
+Response:
+{
+    "categories": [
+        "animal",
+        "girl",
+        "baby"
+    ],
+    "created_at": "2023-05-29 12:56:24.161196",
+    "icon_url": "",
+    "id": "6bc2bb5b-765f-4ed0-8735-df967e067d96",
+    "updated_at": "2023-05-29 12:56:24.161326",
+    "url": "",
+    "value": "tofu is my baby"
+}
+
+4. Delete (remote jokes)
+
+This is remote joke: https://api.chucknorris.io/jokes/AOHw7jMuQoyhHmO0VowSgg
+   Step - 1: send request - Get - http://127.0.0.1:8000/api/joke/AOHw7jMuQoyhHmO0VowSgg
+             response: {
+                    "categories": [],
+                    "created_at": "2020-01-05 13:42:22.089095",
+                    "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+                    "id": "AOHw7jMuQoyhHmO0VowSgg",
+                    "updated_at": "2020-01-05 13:42:22.089095",
+                    "url": "https://api.chucknorris.io/jokes/AOHw7jMuQoyhHmO0VowSgg",
+                    "value": "When Chuck Norris has an erection lasting more than 4 hours he doesn't call your doctor, he calls your mother."
+             }
+   step - 2: send request - Delete - http://127.0.0.1:8000/api/joke/AOHw7jMuQoyhHmO0VowSgg
+             response: success delete
+   step - 3: send request - Get - http://127.0.0.1:8000/api/joke/AOHw7jMuQoyhHmO0VowSgg
+             response: 404 Not Found - This joke has already be deleted by user
+
+
+4. Delete (local jokes)
+   step - 1: send request - Delete - http://127.0.0.1:8000/api/joke/6bc2bb5b-765f-4ed0-8735-df967e067d96
+             response: success delete
+   step - 2. send request - Get - http://127.0.0.1:8000/api/joke/6bc2bb5b-765f-4ed0-8735-df967e067d96
+             response: 404 Deleted
+
+5. Query 
+   send request - Get - http://127.0.0.1:8000/jokes/?query=tofu
+   (will request both local and remote, can combine the result together)
+   response: {
+    "result": [
+        {
+            "categories": [],
+            "created_at": "2020-01-05 13:42:23.484083",
+            "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+            "id": "vbFAZXvoQC6ayyLSNZSzpA",
+            "updated_at": "2020-01-05 13:42:23.484083",
+            "url": "https://api.chucknorris.io/jokes/vbFAZXvoQC6ayyLSNZSzpA",
+            "value": "Chuck Norris was at a restaurant when the waitress asked if he would like to try their Tofu. Chuck said \"lady, I'd rather piss upwind in a hurricane\"."
+        },
+        {
+            "categories": [],
+            "created_at": "2020-01-05 13:42:28.420821",
+            "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+            "id": "uvUi4Df3TzGLFjjiqcPQxw",
+            "updated_at": "2020-01-05 13:42:28.420821",
+            "url": "https://api.chucknorris.io/jokes/uvUi4Df3TzGLFjjiqcPQxw",
+            "value": "Chuck Norris had a Doctor that suggested he needed to eat tofu instead of red meat. Chuck immediately suggested the Doctor needed to have the teeth slapped out of his mouth."
+        },
+        ....
+        {
+            "categories": [
+                "animal",
+                "sunshine"
+            ],
+            "created_at": "2023-05-29 12:28:01.134879",
+            "icon_url": "",
+            "id": "d53a83e0-a0ac-4ea0-bc1d-839841f5f42b",
+            "updated_at": null,
+            "url": "",
+            "value": "tofu go to run"
+        }
+    ],
+    "total": 22
+}
+
+
+
