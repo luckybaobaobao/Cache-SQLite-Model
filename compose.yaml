@@ -1,0 +1,27 @@
+services:
+  backend:
+    build:
+      context: backend
+      target: dev-envs
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8000:8000
+    networks:
+      - backnet
+      - frontnet
+
+  proxy:
+    build: proxy
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    networks:
+      - frontnet
+
+networks:
+  backnet:
+  frontnet:
